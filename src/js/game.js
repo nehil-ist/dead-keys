@@ -93,6 +93,7 @@ addEventListener("keydown",e=>{window.__kbGate&&window.__kbGate(e)},!0);const GO
 (function(){
 const ov=mkOv("ovTu"),DONE="kotodama-tutorial";
 const isDone=()=>{try{return localStorage.getItem(DONE)==="1"}catch(e){return false}};
+window.tuDone=isDone;
 window.TUITEM=["tutorial","How to Play",isDone()?"Completed. Replay any time":"Type, cut, parry, survive. Learn it hands-on"];
 
 const css=document.createElement("style");
@@ -435,7 +436,7 @@ function draw(){
  +'<div class="tu-f"><button id="tuBack"'+(S.p?"":" disabled style=\"opacity:.35\"")+'>Back</button><button id="tuNext">'+(last?"Done":"Next")+'</button>'
  +'<div class="tu-k"><span><i>\u2190 \u2192</i>Pages</span><span><i>Esc</i>Close</span></div></div>';
  p.init&&p.init();
- if(last){try{localStorage.setItem(DONE,"1")}catch(e){}window.TUITEM[2]="Completed. Replay any time"}
+ if(last){try{localStorage.setItem(DONE,"1")}catch(e){}window.TUITEM[2]="Completed. Replay any time";window.ftSync&&window.ftSync()}
  ov.scrollTop=0}
 function go(n){if(n<0||n>=pages.length)return;S.p=n;sf("ui");draw()}
 
@@ -914,3 +915,43 @@ MAIN.splice(2,0,window.TUITEM,["practice","Practice","Drill your weak letters"],
 @media(prefers-reduced-motion:reduce){#meta .hr-t.on,#meta .hr-s.swap>.hr-g,#meta .hr-s.swap::before{animation:none!important}}
 @media(max-width:820px){#meta>.hv-x{display:none}}
 `,document.head.appendChild(e)}
+
+/* ===== FIRST-TIME PROMPT (main menu) =====
+   "First time? Learn to hunt" banner. Hidden once the tutorial is completed (existing
+   kotodama-tutorial flag) or once the player opens/dismisses it (kotodama-tutorial-ask). */
+(function(){
+const ASK="kotodama-tutorial-ask",s=document.getElementById("s-main");
+if(!s)return;
+const got=k=>{try{return localStorage.getItem(k)==="1"}catch(e){return false}};
+const el=document.createElement("div");
+el.id="ftBan";
+el.innerHTML='<button type="button" class="ft-go" tabindex="-1"><small>First time?</small><b>Learn to hunt</b><span><i>T</i>Start</span></button><button type="button" class="ft-x" tabindex="-1" aria-label="Dismiss">\u00D7</button>';
+s.appendChild(el);
+const css=document.createElement("style");
+css.textContent=`
+#s-main #ftBan{position:absolute;z-index:4;right:calc(5 * var(--vw));top:calc(10 * var(--vh));display:none;align-items:stretch;border:2px solid #e9e5dc;background:#0a0a0a;box-shadow:6px 6px 0 rgba(233,229,220,.25);animation:ftIn .45s cubic-bezier(.2,.9,.3,1) .5s both}
+#s-main #ftBan.on{display:flex}
+#ftBan button{font:inherit;color:#e9e5dc;background:none;border:0;cursor:pointer}
+#ftBan .ft-go{display:flex;align-items:center;gap:14px;padding:10px 16px;text-align:left}
+#ftBan .ft-go small{display:block;font:800 .64rem Inter,sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#9d998f}
+#ftBan .ft-go b{display:block;margin-top:2px;font:800 clamp(1rem,calc(2.6 * var(--vh)),1.35rem)/1 'Space Grotesk',sans-serif;letter-spacing:.12em;text-transform:uppercase}
+#ftBan .ft-go span{font:800 .64rem Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#b9b5aa;white-space:nowrap}
+#ftBan .ft-go i{font-style:normal;margin-right:6px;padding:2px 7px;background:#e9e5dc;color:#0a0a0a;transform:skewX(-10deg);display:inline-block}
+#ftBan .ft-x{padding:0 14px;border-left:2px solid #4a4843;font:700 1.4rem/1 Inter,sans-serif;color:#9d998f}
+#ftBan .ft-go:hover{background:#e9e5dc;color:#0a0a0a}#ftBan .ft-go:hover small,#ftBan .ft-go:hover span{color:#0a0a0a}
+#ftBan .ft-x:hover{color:#fff}
+@keyframes ftIn{from{opacity:0;translate:0 -10px}}
+@media(max-width:820px){#s-main #ftBan{left:calc(5 * var(--vw));right:calc(5 * var(--vw));top:calc(calc(4 * var(--vh)) + min(calc(17 * var(--vw)),calc(12 * var(--vh)))*1.95 + calc(2.6 * var(--vh)) + 38px)}#ftBan .ft-go{flex:1;gap:10px;padding:7px 12px;white-space:nowrap}#ftBan .ft-go b{font-size:.95rem;letter-spacing:.1em}#ftBan .ft-go span{display:none}#ftBan .ft-x{padding:0 12px}}
+@media(prefers-reduced-motion:reduce){#s-main #ftBan{animation:none}}`;
+document.head.appendChild(css);
+const want=()=>!!window.tuDone&&!window.tuDone()&&!got(ASK);
+window.ftSync=()=>el.classList.toggle("on",want());
+const mark=()=>{try{localStorage.setItem(ASK,"1")}catch(e){}ftSync()};
+const go=()=>{mark();window.tuStart()};
+el.addEventListener("click",e=>{if(e.target.closest(".ft-x"))mark();else if(e.target.closest(".ft-go"))go()});
+addEventListener("keydown",e=>{
+ if((e.key==="t"||e.key==="T")&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.repeat&&el.classList.contains("on")&&el.offsetParent!==null&&!document.querySelector(".ov2.on")&&!document.getElementById("wk")){e.preventDefault();go()}
+});
+{const o=openMenu;openMenu=function(){o.apply(this,arguments);ftSync()}}
+ftSync();
+})();
