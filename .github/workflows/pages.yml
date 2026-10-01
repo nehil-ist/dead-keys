@@ -1,0 +1,23 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.dep.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm i -g esbuild
+      - run: python build.py --out dist/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: dep
+        uses: actions/deploy-pages@v4
