@@ -120,6 +120,8 @@
     }
   }
 
+  window.shopSnd = sound;
+
   function play(r, rc) {
     try { sound(r); } catch (e) {}
     try { visual(r, rc); } catch (e) {}

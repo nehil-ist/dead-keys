@@ -1,0 +1,61 @@
+/* In-game borders: a masked ring (::before) + inset glow (::after), driven by CSS variables */
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+.bdr{position:absolute;inset:0;pointer-events:none;z-index:40;--t:10px;display:none;animation:var(--an,none)}
+.bdr.on{display:block}
+.bdr::before,.bdr::after{content:"";position:absolute;inset:0;box-sizing:border-box}
+.bdr::before{padding:calc(var(--t) * var(--k,1));background:var(--bg,none);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.bdr::after{box-shadow:var(--sh,none);animation:var(--ag,none)}
+@keyframes bdSpin{from{--a:0deg}to{--a:360deg}}
+@keyframes bdPulse{50%{opacity:.35}}
+@keyframes bdFl{0%,90%,100%{opacity:1}92%{opacity:.25}95%{opacity:1}97%{opacity:.45}}
+.b-ink{--k:.35;--bg:#e9e5dc}
+.b-slab{--bg:#2e2c28;--sh:inset 0 0 0 2px #e9e5dc}
+.b-links{--bg:repeating-conic-gradient(#e9e5dc 0 .7deg,#161514 .7deg 1.4deg);--sh:inset 0 0 0 2px #0a0a0a}
+.b-blood{--bg:linear-gradient(#d24a4a,#6a1010);--sh:inset 0 0 38px rgba(192,58,58,.6);--ag:bdPulse 2.4s ease-in-out infinite}
+.b-moon{--bg:conic-gradient(from var(--a),#e9e5dc,#6b6860 25%,#fff 50%,#6b6860 75%,#e9e5dc);--sh:inset 0 0 24px rgba(233,229,220,.35);--an:bdSpin 7s linear infinite}
+.b-ember{--bg:conic-gradient(from var(--a),#ffb347,#ff5a1f,#5a1200,#ff5a1f,#ffb347);--sh:inset 0 0 32px rgba(255,90,31,.5);--an:bdSpin 5s linear infinite;--ag:bdPulse 1.3s ease-in-out infinite}
+.b-frost{--bg:conic-gradient(from var(--a),#e8f6ff,#4aa3ff,#bfe6ff,#2a6fd0,#e8f6ff);--sh:inset 0 0 28px rgba(90,162,255,.45);--an:bdSpin 9s linear infinite}
+.b-void{--k:1.15;--bg:conic-gradient(from var(--a),#b074ff,#12061f,#6a2cff,#12061f,#b074ff);--sh:inset 0 0 44px rgba(176,116,255,.55);--an:bdSpin 4s linear infinite;--ag:bdPulse 2.2s ease-in-out infinite}
+.b-signal{--bg:repeating-linear-gradient(0deg,#e9e5dc 0 3px,#0a0a0a 3px 6px);--sh:inset 0 0 0 2px #e9e5dc;--an:bdFl 3.4s steps(1) infinite}
+.b-gilt{--k:1.25;--bg:conic-gradient(from var(--a),#ffe9a0,#c98f1a,#fff3c4,#9a6a0c,#ffe9a0);--sh:inset 0 0 36px rgba(255,201,77,.6),inset 0 0 0 2px #fff3c4;--an:bdSpin 3.5s linear infinite;--ag:bdPulse 2s ease-in-out infinite}
+.b-soulfire{--k:1.2;--bg:conic-gradient(from var(--a),#9ff,#fff,#6af,#fff,#9ff);--sh:inset 0 0 46px rgba(120,220,255,.65);--an:bdSpin 2.2s linear infinite;--ag:bdPulse .9s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.bdr,.bdr::after{animation:none!important}}
+
+/* Shop overlay */
+#ovSh{background:#050505;text-align:left;padding:0;overflow:auto;font-family:'Space Grotesk',Inter,system-ui,sans-serif}
+#ovSh::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(rgba(233,229,220,.09) 1.2px,transparent 1.7px) 0 0/9px 9px}
+#ovSh .sh-h{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:22px 28px 6px}
+#ovSh .sh-h h2{margin:0;padding:.08em .5em;background:#e9e5dc;color:#0a0a0a;font:800 clamp(1.6rem,5vh,2.8rem)/1 'Space Grotesk',sans-serif;letter-spacing:.2em;transform:skewX(-10deg);box-shadow:6px 6px 0 #34322e}
+#ovSh .sh-h small{flex:1;color:#9d998f;font:800 .7rem Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+#ovSh .sh-s{font:800 .85rem 'Space Grotesk',sans-serif;letter-spacing:.14em;text-transform:uppercase;border:2px solid #e9e5dc;padding:6px 14px;transform:skewX(-10deg)}
+#ovSh .sh-s b{font-size:1.2rem;color:#fff;margin:0 4px}
+#ovSh .sh-t{position:relative;padding:8px 28px}
+#ovSh .sh-t i{font:800 .72rem Inter,sans-serif;font-style:normal;letter-spacing:.24em;text-transform:uppercase;background:#e9e5dc;color:#000;padding:4px 14px}
+#ovSh .sh-g{position:relative;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;padding:10px 28px}
+#ovSh .sb{position:relative;padding:0 28px 30px}
+#ovSh .sh-c{display:flex;flex-direction:column;gap:5px;padding:12px;background:#121211;border:2px solid #3a3835;cursor:pointer;transition:transform .15s,border-color .15s}
+#ovSh .sh-c.sel{border-color:var(--rc);transform:translateY(-3px);box-shadow:0 0 22px color-mix(in srgb,var(--rc) 35%,transparent)}
+#ovSh .sh-c.eq{background:#1c1b19}
+#ovSh .sh-c b{font:800 1rem 'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase}
+#ovSh .sh-c small{font:800 .66rem Inter,sans-serif;letter-spacing:.18em;color:var(--rc)}
+#ovSh .sh-c span{font-size:.76rem;line-height:1.35;color:#bdb8ae;min-height:2.1em}
+#ovSh .sh-c button{margin:4px 0 0;width:100%}
+#ovSh .sh-c button.no{opacity:.45}
+#ovSh .sh-c.eq button{background:#e9e5dc;color:#000}
+#ovSh .sh-p{position:relative;height:96px;background:#0a0a0a radial-gradient(rgba(233,229,220,.1) 1px,transparent 1.5px) 0 0/8px 8px;overflow:hidden;display:grid;place-items:center}
+#ovSh .sh-p em{font:700 .6rem 'JetBrains Mono',monospace;font-style:normal;color:#6f6b64;letter-spacing:.2em;text-transform:uppercase}
+#ovSh .sh-p .bdr{--t:6px}
+#ovSh .sh-c.nk{animation:shNk .25s}
+#ovSh .sh-c.bgt{animation:shBg .7s ease-out}
+@keyframes shNk{25%{translate:-6px 0}75%{translate:6px 0}}
+@keyframes shBg{0%{scale:1;box-shadow:0 0 0 0 var(--rc)}30%{scale:1.06;box-shadow:0 0 40px 6px var(--rc)}100%{scale:1}}
+
+/* Kill effects: particles are added by shop.js to #tp, #mg or a shop card preview */
+.kf{position:absolute;pointer-events:none;z-index:45;will-change:transform,opacity}
+#ovSh .sh-p.kp{align-content:center;gap:2px}
+#ovSh .sh-p.kp .kg{font:900 2.6rem/1 'Noto Serif JP',serif;font-style:normal;color:var(--rc);opacity:.35;text-shadow:0 0 18px var(--rc)}
+#ovSh .sh-p.kp em{position:absolute;left:0;right:0;bottom:6px;text-align:center}
+@media(prefers-reduced-motion:reduce){.kf{will-change:auto}}
+
+/* hit-stop: freeze CSS motion for a few ms on a kill */
+#tp.kfs *{animation-play-state:paused!important}
