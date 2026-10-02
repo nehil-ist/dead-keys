@@ -1,26 +1,4 @@
-/* In-game borders: a masked ring (::before) + inset glow (::after), driven by CSS variables */
-@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
-.bdr{position:absolute;inset:0;pointer-events:none;z-index:40;--t:10px;display:none;animation:var(--an,none)}
-.bdr.on{display:block}
-.bdr::before,.bdr::after{content:"";position:absolute;inset:0;box-sizing:border-box}
-.bdr::before{padding:calc(var(--t) * var(--k,1));background:var(--bg,none);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
-.bdr::after{box-shadow:var(--sh,none);animation:var(--ag,none)}
-@keyframes bdSpin{from{--a:0deg}to{--a:360deg}}
-@keyframes bdPulse{50%{opacity:.35}}
-@keyframes bdFl{0%,90%,100%{opacity:1}92%{opacity:.25}95%{opacity:1}97%{opacity:.45}}
-.b-ink{--k:.35;--bg:#e9e5dc}
-.b-slab{--bg:#2e2c28;--sh:inset 0 0 0 2px #e9e5dc}
-.b-links{--bg:repeating-conic-gradient(#e9e5dc 0 .7deg,#161514 .7deg 1.4deg);--sh:inset 0 0 0 2px #0a0a0a}
-.b-blood{--bg:linear-gradient(#d24a4a,#6a1010);--sh:inset 0 0 38px rgba(192,58,58,.6);--ag:bdPulse 2.4s ease-in-out infinite}
-.b-moon{--bg:conic-gradient(from var(--a),#e9e5dc,#6b6860 25%,#fff 50%,#6b6860 75%,#e9e5dc);--sh:inset 0 0 24px rgba(233,229,220,.35);--an:bdSpin 7s linear infinite}
-.b-ember{--bg:conic-gradient(from var(--a),#ffb347,#ff5a1f,#5a1200,#ff5a1f,#ffb347);--sh:inset 0 0 32px rgba(255,90,31,.5);--an:bdSpin 5s linear infinite;--ag:bdPulse 1.3s ease-in-out infinite}
-.b-frost{--bg:conic-gradient(from var(--a),#e8f6ff,#4aa3ff,#bfe6ff,#2a6fd0,#e8f6ff);--sh:inset 0 0 28px rgba(90,162,255,.45);--an:bdSpin 9s linear infinite}
-.b-void{--k:1.15;--bg:conic-gradient(from var(--a),#b074ff,#12061f,#6a2cff,#12061f,#b074ff);--sh:inset 0 0 44px rgba(176,116,255,.55);--an:bdSpin 4s linear infinite;--ag:bdPulse 2.2s ease-in-out infinite}
-.b-signal{--bg:repeating-linear-gradient(0deg,#e9e5dc 0 3px,#0a0a0a 3px 6px);--sh:inset 0 0 0 2px #e9e5dc;--an:bdFl 3.4s steps(1) infinite}
-.b-gilt{--k:1.25;--bg:conic-gradient(from var(--a),#ffe9a0,#c98f1a,#fff3c4,#9a6a0c,#ffe9a0);--sh:inset 0 0 36px rgba(255,201,77,.6),inset 0 0 0 2px #fff3c4;--an:bdSpin 3.5s linear infinite;--ag:bdPulse 2s ease-in-out infinite}
-.b-soulfire{--k:1.2;--bg:conic-gradient(from var(--a),#9ff,#fff,#6af,#fff,#9ff);--sh:inset 0 0 46px rgba(120,220,255,.65);--an:bdSpin 2.2s linear infinite;--ag:bdPulse .9s ease-in-out infinite}
-@media(prefers-reduced-motion:reduce){.bdr,.bdr::after{animation:none!important}}
-
+/* Frames live in frames.css */
 /* Shop overlay */
 #ovSh{background:#050505;text-align:left;padding:0;overflow:auto;font-family:'Space Grotesk',Inter,system-ui,sans-serif}
 #ovSh::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(rgba(233,229,220,.09) 1.2px,transparent 1.7px) 0 0/9px 9px}
@@ -49,13 +27,3 @@
 #ovSh .sh-c.bgt{animation:shBg .7s ease-out}
 @keyframes shNk{25%{translate:-6px 0}75%{translate:6px 0}}
 @keyframes shBg{0%{scale:1;box-shadow:0 0 0 0 var(--rc)}30%{scale:1.06;box-shadow:0 0 40px 6px var(--rc)}100%{scale:1}}
-
-/* Kill effects: particles are added by shop.js to #tp, #mg or a shop card preview */
-.kf{position:absolute;pointer-events:none;z-index:45;will-change:transform,opacity}
-#ovSh .sh-p.kp{align-content:center;gap:2px}
-#ovSh .sh-p.kp .kg{font:900 2.6rem/1 'Noto Serif JP',serif;font-style:normal;color:var(--rc);opacity:.35;text-shadow:0 0 18px var(--rc)}
-#ovSh .sh-p.kp em{position:absolute;left:0;right:0;bottom:6px;text-align:center}
-@media(prefers-reduced-motion:reduce){.kf{will-change:auto}}
-
-/* hit-stop: freeze CSS motion for a few ms on a kill */
-#tp.kfs *{animation-play-state:paused!important}
