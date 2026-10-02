@@ -7,7 +7,7 @@
 #wk.go .rs{animation:wkRs 1.4s cubic-bezier(.2,.9,.2,1) both,wkSpin 160s linear infinite}
 #wk .mn{left:50%;bottom:0;width:min(calc(52*var(--vh)),calc(48*var(--vw)));aspect-ratio:1;border-radius:50%;translate:-50% 75%;opacity:0;background:radial-gradient(circle at 38% 34%,#fff,#e9e5dc 38%,#a9a59d 72%,#6d6a64);box-shadow:0 0 90px 24px #e9e5dc59}
 #wk.go .mn{animation:wkMoon 2.2s .3s cubic-bezier(.2,.7,.2,1) forwards}
-#wk .cs{left:0;right:0;bottom:-1px;width:100%;height:max(calc(24*var(--vw)),170px);max-height:46%;translate:0 100%}
+#wk .cs{left:0;right:0;bottom:-1px;width:100%;height:max(calc(30*var(--vw)),170px);max-height:58%;translate:0 100%}
 #wk.go .cs{animation:wkUp 1.1s .15s cubic-bezier(.2,.9,.2,1) forwards}
 #wk .cs rect{fill:#e9e5dc;opacity:0;animation:wkWin 2.6s steps(1) infinite}
 #wk .bt{top:24%;left:-6%;width:34px;height:14px;background:#e9e5dc;opacity:0;clip-path:polygon(0 30%,20% 0,38% 40%,50% 20%,62% 40%,80% 0,100% 30%,80% 100%,62% 60%,50% 80%,38% 60%,20% 100%)}
@@ -24,8 +24,8 @@
 #wk.go .fl.b{animation:wkFl .4s 1.95s ease-out}
 #wk.go .fl.c{animation:wkFl .25s 3.2s ease-out}
 #wk .ct{left:0;right:0;top:50%;translate:0 -56%;display:flex;flex-direction:column;align-items:center;gap:calc(1.2*var(--vh))}
-#wk .sw{padding:.1em 1.1em .18em .9em;background:#e9e5dc;color:#050505;font:800 clamp(1.3rem,calc(3.6*var(--vw)),2.6rem)/1 'Space Grotesk',sans-serif;letter-spacing:.34em;transform:skew(-12deg) rotate(-3deg);box-shadow:8px 8px #3a3936;opacity:0}
-#wk.go .sw{animation:wkSl .45s .95s cubic-bezier(.15,1,.3,1) forwards}
+#wk .wsw{padding:.1em 1.1em .18em .9em;background:#e9e5dc;color:#050505;font:800 clamp(1.3rem,calc(3.6*var(--vw)),2.6rem)/1 'Space Grotesk',sans-serif;letter-spacing:.34em;transform:skew(-12deg) rotate(-3deg);box-shadow:8px 8px #3a3936;opacity:0}
+#wk.go .wsw{animation:wkSl .45s .95s cubic-bezier(.15,1,.3,1) forwards}
 #wk .tr{display:flex;gap:calc(.8*var(--vw))}
 #wk .tr+.tr{margin-left:calc(9*var(--vw))}
 #wk .tl{display:block;padding:0 .08em;font:800 clamp(4rem,calc(15*var(--vw)),9.5rem)/1.02 'Space Grotesk',sans-serif;border:3px solid #e9e5dc;background:#050505;color:#e9e5dc;box-shadow:8px 8px #3a3936;opacity:0}

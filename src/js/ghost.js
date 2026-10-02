@@ -178,11 +178,11 @@
   /* ---------- lines ---------- */
   const L = {
     greet: ["Good evening, little typist... I am Count Boo-La!", "Welcome back to the crypt. Shall we type?", "Ooh, fresh fingers! Delicious."],
-    idle: ["Boo! ...did I scare you? No? Hmm.", "I haven't had a bite in centuries. I'm on a typing diet.", "Fast fingers, warm hearts. Mostly the hearts.", "Psst. Spend your souls in the Shop. I'll sing for you.", "Being dead is fine. Being slow is worse.", "I float, therefore I type.", "Try the Shop! My voices are very, very fashionable.", "I'm not a vampire who bites. I'm a vampire who vibes."],
+    idle: ["Boo! ...did I scare you? No? Hmm.", "I haven't had a bite in centuries. I'm on a typing diet.", "Fast fingers, warm hearts. Mostly the hearts.", "Psst. Spend your souls in the Shop. I'll sing for you.", "Being dead is fine. Being slow is worse.", "I float, therefore I type.", "Try the Shop! My voices and outfits are very, very fashionable.", "I'm not a ghost who haunts. I'm a ghost who vibes."],
     poke: ["Hee hee! That tickles.", "Boo! Ha ha ha!", "Careful, I'm see-through, not defenseless!", "Again, again!", "You poked a ghost. Bold."],
     set: ["Settings? You can switch me off here... but you wouldn't. Right?", "Turn me down if I'm too chatty. I won't cry. Much."],
     song: ["Ooh, pick a song! Something spooky."],
-    shop: ["The Shop! Try my voices. Press Hear on any of them.", "Ahh, souls! Spend them wisely. Or on me.", "A new voice? Make it a good one."],
+    shop: ["The Shop! Try my voices, or dress me up.", "Ahh, souls! Spend them wisely. Or on me.", "A new voice? Make it a good one."],
     start: ["Time to hunt! Don't stop typing!", "Show them what your fingers can do!", "Heart high, fingers fast!"],
     kill: ["Slain! Magnificent!", "Oooh, so tidy!", "Bleh, that one was dry.", "Another one gone!", "Sharp!"],
     boss: ["The boss is down?! Bravo!", "Now THAT was a feast!"],
@@ -194,40 +194,12 @@
   };
 
   /* ---------- DOM ---------- */
-  const SVG = '<svg viewBox="0 0 140 160" overflow="visible"><defs>' +
-    '<linearGradient id="gbd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf9ff"/><stop offset=".55" stop-color="#e3e6ff"/><stop offset="1" stop-color="#a9b4f2"/></linearGradient>' +
-    '<radialGradient id="gaura"><stop offset="0" stop-color="#9fb3ff" stop-opacity=".42"/><stop offset="1" stop-color="#9fb3ff" stop-opacity="0"/></radialGradient></defs>' +
-    '<ellipse class="au" cx="70" cy="86" rx="72" ry="78" fill="url(#gaura)"/>' +
-    /* bat wings behind the body */
-    '<g class="wl"><path d="M36 92C20 76 6 78 -6 90 4 90 10 94 12 100 18 96 24 98 28 106 32 100 36 100 40 104Z" fill="#241a38" stroke="#0a0a0a" stroke-width="2" stroke-linejoin="round"/><path d="M12 100C18 92 26 94 32 100M28 106C30 98 34 96 38 98" stroke="#b3123a" stroke-width="1.6" fill="none"/></g>' +
-    '<g class="wr"><path d="M104 92C120 76 134 78 146 90 136 90 130 94 128 100 122 96 116 98 112 106 108 100 104 100 100 104Z" fill="#241a38" stroke="#0a0a0a" stroke-width="2" stroke-linejoin="round"/><path d="M128 100C122 92 114 94 108 100M112 106C110 98 106 96 102 98" stroke="#b3123a" stroke-width="1.6" fill="none"/></g>' +
-    /* body: round head flowing into a curled spirit tail */
-    '<g class="tl"><path d="M70 28C100 28 118 50 116 78 114 96 104 106 98 120 92 136 98 150 84 156 74 160 66 152 70 144 76 134 68 128 58 124 42 118 24 100 24 76 24 48 42 28 70 28Z" fill="url(#gbd)" stroke="#2c2447" stroke-width="2.6" stroke-linejoin="round"/>' +
-    '<path d="M44 118C50 130 40 140 30 142 22 143 18 138 24 134 32 130 36 124 36 114" fill="#cfd6ff" stroke="#2c2447" stroke-width="2.2" stroke-linejoin="round" opacity=".95"/></g>' +
-    /* cape collar */
-    '<path d="M36 106 24 70 54 100ZM104 106 116 70 86 100Z" fill="#14101f" stroke="#0a0a0a" stroke-width="2" stroke-linejoin="round"/><path d="M38 103 31 82 51 99ZM102 103 109 82 89 99Z" fill="#b3123a"/>' +
-    '<path d="M45 108Q70 122 95 108L95 117Q70 131 45 117Z" fill="#14101f" stroke="#0a0a0a" stroke-width="2" stroke-linejoin="round"/><path class="gm" d="M70 113 75 119 70 127 65 119Z" fill="#e8143f" stroke="#0a0a0a" stroke-width="1.6"/>' +
-    /* little hands */
-    '<ellipse class="hl" cx="26" cy="86" rx="8" ry="6.5" fill="#eef0ff" stroke="#2c2447" stroke-width="2.2"/><ellipse class="hr" cx="114" cy="86" rx="8" ry="6.5" fill="#eef0ff" stroke="#2c2447" stroke-width="2.2"/>' +
-    /* face */
-    '<ellipse cx="45" cy="78" rx="8" ry="4.6" fill="#ff8aa6" opacity=".7"/><ellipse cx="95" cy="78" rx="8" ry="4.6" fill="#ff8aa6" opacity=".7"/>' +
-    '<g class="ey"><ellipse cx="52" cy="66" rx="9.5" ry="11.5" fill="#e8143f" stroke="#2c2447" stroke-width="2"/><ellipse cx="88" cy="66" rx="9.5" ry="11.5" fill="#e8143f" stroke="#2c2447" stroke-width="2"/>' +
-    '<g fill="#5a0a1e"><path d="M52 60.5 54 64.5 58 63.5 55.5 67 58 70.5 54 69.5 52 73 50 69.5 46 70.5 48.5 67 46 63.5 50 64.5Z"/><path d="M88 60.5 90 64.5 94 63.5 91.5 67 94 70.5 90 69.5 88 73 86 69.5 82 70.5 84.5 67 82 63.5 86 64.5Z"/></g>' +
-    '<circle cx="49" cy="61" r="2.6" fill="#fff"/><circle cx="85" cy="61" r="2.6" fill="#fff"/></g>' +
-    /* mouth with fangs and a cheeky tongue */
-    '<g class="mo" transform="translate(10.5 12.6) scale(.85)"><path d="M54 84Q70 98 86 84Q86 100 70 102Q54 100 54 84Z" fill="#3a0716" stroke="#2c2447" stroke-width="2" stroke-linejoin="round"/>' +
-    '<path d="M60 91 63 99 66 91ZM74 91 77 99 80 91Z" fill="#fff" stroke="#2c2447" stroke-width="1.4" stroke-linejoin="round"/>' +
-    '<path d="M64 99Q72 108 80 99Q76 95 70 95Q66 96 64 99Z" fill="#ff6f95" stroke="#2c2447" stroke-width="1.4"/></g>' +
-    /* hat: wide brim, short crown, crimson band, bat pin */
-    '<g class="ht"><ellipse cx="70" cy="30" rx="44" ry="9" fill="#14101f" stroke="#0a0a0a" stroke-width="2.6"/>' +
-    '<path d="M42 28C42 4 52 -8 70 -8 88 -8 98 4 98 28 84 33 56 33 42 28Z" fill="#14101f" stroke="#0a0a0a" stroke-width="2.6" stroke-linejoin="round"/>' +
-    '<path d="M43 22C58 28 82 28 97 22L98 28C84 33 56 33 42 28Z" fill="#b3123a"/>' +
-    '<path d="M86 14 92 4 96 12 102 6 100 18 94 16Z" fill="#241a38" stroke="#e8143f" stroke-width="1.6" stroke-linejoin="round"/><circle cx="96" cy="12" r="1.2" fill="#ffb3c4"/></g>' +
-    '</svg>';
+  /* the ghost is a plain ghost: whatever it wears comes from the Shop (see ghostwear.js) */
+  const art = () => GHOST_WEAR.build(GHOST_WEAR.worn(), "m");
 
   const gh = document.createElement("div");
   gh.id = "gh";
-  gh.innerHTML = '<div class="gb"><small>Count Boo-La</small><span></span></div><div class="gs">' + SVG +
+  gh.innerHTML = '<div class="gb"><small>Count Boo-La</small><span></span></div><div class="gs">' + art() +
     '</div><i class="gw w1"></i><i class="gw w2"></i><i class="gw w3"></i>';
   APP.appendChild(gh);
   const bub = gh.querySelector(".gb"), btx = bub.querySelector("span"), gs = gh.querySelector(".gs");
@@ -419,6 +391,14 @@
       return line;
     },
     say(text) { speak(text, { cut: true }); },
+    /* redraw the ghost after the player equips something in the Shop */
+    refresh() {
+      gs.innerHTML = art();
+      gh.classList.remove("hop"); gh.offsetWidth; gh.classList.add("hop");
+    },
+    dress(name) {
+      speak(name ? pick(["Ooh, the " + name + "! Fabulous.", "The " + name + "? I look dead good.", "A " + name + "! How dashing."]) : pick(["Back to plain old me!", "Simple and spooky."]), { cut: true });
+    },
     laugh() { laugh(curVoice()); },
     wooo() { wooo(curVoice()); },
     voices: VOICES

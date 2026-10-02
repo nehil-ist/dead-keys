@@ -18,7 +18,7 @@ const el=document.createElement('div');el.id='wk';el.className='gate'+(RM?' rm':
 el.innerHTML='<i class="dt"></i><div class="rs">'+rose+'</div><i class="mn"></i>'+ink+'<i class="kj">死</i>'+castle
 +[0,1,2].map(i=>'<i class="bt" style="--i:'+i+';top:'+(18+i*7)+'%"></i>').join('')
 +'<div class="vt">言霊 ・ 斬 ・ 夜</div><div class="vl">TYPE · SLASH · SURVIVE</div>'
-+'<div class="ct"><div class="sw">WELCOME TO</div>'+tiles('DEAD',0)+tiles('KEYS',1)+'<div class="tg">TYPE FAST. STAY ALIVE.</div></div>'
++'<div class="ct"><div class="wsw">WELCOME TO</div>'+tiles('DEAD',0)+tiles('KEYS',1)+'<div class="tg">TYPE FAST. STAY ALIVE.</div></div>'
 +'<div class="ro">'+HE.map((h,i)=>'<div class="hc" style="--i:'+i+'"><i>'+h[1]+'</i><small>0'+(i+1)+'</small><b>'+h[0]+'</b></div>').join('')+'</div>'
 +'<div class="sg"><u>ACT 0</u><div><small>STAGE 1</small><b>HOLLOW ROAD</b></div></div>'
 +'<div class="pg"><i>黄泉</i><b>PRESS ANY KEY</b></div><div class="hn">ANY KEY · SKIP</div>'
