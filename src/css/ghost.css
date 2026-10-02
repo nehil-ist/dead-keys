@@ -1,0 +1,55 @@
+/* Count Boo-La: the vampire ghost mascot (js/ghost.js) */
+#gh{position:absolute;left:0;top:0;width:130px;height:150px;z-index:36;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .35s,visibility 0s .35s;will-change:transform}
+#gh.on{visibility:visible;opacity:.97;transition:opacity .35s}
+#gh.sp{z-index:640}
+#gh.on.ovr{opacity:.28}
+#gh.sp.on{opacity:.85}
+#gh .gs{position:absolute;inset:0;transform-origin:50% 55%}
+#gh .gs svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 8px 12px rgba(120,140,255,.38))}
+#gh .au{animation:gAu 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+#gh .tl{transform-box:fill-box;transform-origin:50% 12%;animation:gTl 2.6s ease-in-out infinite}
+#gh .wl{transform-box:fill-box;transform-origin:100% 75%;animation:gWl .55s ease-in-out infinite alternate}
+#gh .wr{transform-box:fill-box;transform-origin:0 75%;animation:gWr .55s ease-in-out infinite alternate}
+#gh .ey{transform-box:fill-box;transform-origin:50% 50%;animation:gBl 4.6s infinite}
+#gh .mo{transform-box:fill-box;transform-origin:50% 0}
+#gh.talk .mo{animation:gMo .17s ease-in-out infinite alternate}
+#gh .ht{transform-box:fill-box;transform-origin:50% 100%;animation:gHt 3.4s ease-in-out infinite}
+#gh .hl{transform-box:fill-box;transform-origin:center;animation:gHd 2.2s ease-in-out infinite}
+#gh .hr{transform-box:fill-box;transform-origin:center;animation:gHd 2.2s ease-in-out -1.1s infinite}
+#gh.talk .hl,#gh.talk .hr{animation-duration:.5s}
+#gh .gm{animation:gGm 1.8s ease-in-out infinite}
+#gh.pop .gs svg{animation:gPop .65s cubic-bezier(.2,1.6,.4,1)}
+#gh.hop .gs svg{animation:gHop .55s cubic-bezier(.3,1.5,.5,1)}
+#gh .gw{position:absolute;left:50%;top:50%;width:9px;height:12px;margin:-6px 0 0 -4px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(#fff,#b9a6ff 60%,#7b6cff);box-shadow:0 0 10px 3px rgba(150,130,255,.7);opacity:.85;animation:gOrb 5.4s linear infinite}
+#gh .gw.w2{animation-duration:7.2s;animation-delay:-2.4s;width:7px;height:10px}
+#gh .gw.w3{animation-duration:6.3s;animation-delay:-4.1s;width:6px;height:8px}
+#gh.gm2 .gw{display:none}
+#gh .gb{position:absolute;z-index:2;width:max-content;max-width:250px;box-sizing:border-box;padding:7px 12px 8px;background:#e9e5dc;color:#0a0a0a;border:2px solid #0a0a0a;box-shadow:4px 4px 0 #34322e;opacity:0;transform:scale(.88);transform-origin:var(--ax,50%) 100%;transition:opacity .2s,transform .2s;font:700 .86rem/1.32 'Space Grotesk',Inter,system-ui,sans-serif;text-align:left}
+#gh .gb.bl{transform-origin:var(--ax,50%) 0}
+#gh .gb.on{opacity:1;transform:none}
+#gh .gb small{display:block;font:800 .58rem Inter,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#b3123a;margin-bottom:2px}
+#gh .gb::after{content:"";position:absolute;left:var(--ax,50%);bottom:-9px;margin-left:-7px;border:7px solid transparent;border-top:8px solid #0a0a0a;border-bottom:0}
+#gh .gb.bl::after{bottom:auto;top:-9px;border-top:0;border-bottom:8px solid #0a0a0a}
+#gh.gm2 .gb{font-size:.74rem;padding:5px 10px 6px;max-width:210px}
+@keyframes gAu{50%{opacity:.6;scale:1.06}}
+@keyframes gTl{0%,100%{rotate:-4deg}50%{rotate:5deg}}
+@keyframes gWl{from{rotate:14deg}to{rotate:-12deg}}
+@keyframes gWr{from{rotate:-14deg}to{rotate:12deg}}
+@keyframes gBl{0%,92%,100%{scale:1 1}95%{scale:1 .08}}
+@keyframes gMo{from{scale:1 1}to{scale:1 .5}}
+@keyframes gHt{0%,100%{rotate:-2deg}50%{rotate:2.5deg}}
+@keyframes gHd{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@keyframes gGm{50%{filter:brightness(1.6)}}
+@keyframes gPop{0%{scale:0;rotate:-30deg;opacity:0}100%{scale:1;rotate:0deg;opacity:1}}
+@keyframes gHop{0%{translate:0 0;scale:1 1}25%{scale:1.12 .85}55%{translate:0 -34px;scale:.92 1.1}100%{translate:0 0;scale:1 1}}
+@keyframes gOrb{0%{transform:translate(0,-84px) scale(1)}25%{transform:translate(78px,-6px) scale(.7)}50%{transform:translate(0,76px) scale(1.1)}75%{transform:translate(-78px,-6px) scale(.7)}100%{transform:translate(0,-84px) scale(1)}}
+@media (prefers-reduced-motion:reduce){#gh .tl,#gh .wl,#gh .wr,#gh .gw,#gh .ht,#gh .hl,#gh .hr,#gh .au{animation:none}}
+
+/* shop: Ghost Voices tab */
+#ovSh .sh-p.pvv{display:flex;align-items:center;justify-content:center;gap:12px;padding:0 10px}
+#ovSh .pvv .bars{display:flex;align-items:center;gap:3px;height:48px}
+#ovSh .pvv .bars i{display:block;width:5px;height:var(--h);background:var(--rc);border-radius:2px;opacity:.85;transform-origin:50% 50%}
+#ovSh .pvv.playing .bars i{animation:vbar .38s ease-in-out infinite alternate;animation-delay:calc(var(--n) * -.07s)}
+#ovSh .pvv .pvbtn{font:800 .66rem Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#000;background:var(--rc);padding:6px 10px;cursor:pointer;border:0;transform:skewX(-10deg);transition:transform .12s}
+#ovSh .pvv .pvbtn:hover{transform:skewX(-10deg) scale(1.08)}
+@keyframes vbar{from{scale:1 .35}to{scale:1 1.15}}

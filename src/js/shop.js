@@ -45,6 +45,8 @@
   const NONE0 = ["", "No Border", "The bare frame.", 0, 0];
   const NONE2 = ["", "Plain Box", "The default dark box.", 0, 0];
   const NONE = ["", "Plain Ring", "The default round ring.", 0, 0];
+  const NONEV = ["", "Nocturne", "Count Boo-La's own soft, squeaky ghost voice.", 0, 0];
+  const GV = (window.GHOST_VOICES || []).map(v => v.slice(0, 5));
   /* Slash Colors preview: the equipped hero's own attack flies in before the cut (mirrors projFx / swordFx in game.js) */
   const PJ = {
     sword: [11, 44, '<svg viewBox="0 0 16 64"><polygon points="8,0 4.4,36 11.6,36" fill="currentColor"/><polygon points="8,0 8,36 11.6,36" fill="#000" opacity=".35"/><polygon points="-1,35 4,33.5 12,33.5 17,35 15,39 11,37.6 5,37.6 1,39" fill="#e9e5dc"/><rect x="6.3" y="38" width="3.4" height="14" fill="#1b1b1a" stroke="#e9e5dc" stroke-width=".7"/></svg>'],
@@ -63,13 +65,14 @@
   }
 
   let tab = 0;
-  const TABS = [["Borders", "bd", "bdE", BD, NONE0], ["Parry Rings", "bn", "bnE", BN, NONE], ["Backgrounds", "bg", "bgE", BG, NONE2], ["Slash Colors", "sw", "swE", SW, NONE3]];
+  const TABS = [["Borders", "bd", "bdE", BD, NONE0], ["Parry Rings", "bn", "bnE", BN, NONE], ["Backgrounds", "bg", "bgE", BG, NONE2], ["Slash Colors", "sw", "swE", SW, NONE3], ["Ghost Voices", "gv", "gvE", GV, NONEV]];
   const list = () => [TABS[tab][4]].concat(TABS[tab][3]);
 
   META.bd = META.bd || {}; META.bdE = META.bdE || "";
   META.bn = META.bn || {}; META.bnE = META.bnE || "";
   META.bg = META.bg || {}; META.bgE = META.bgE || "";
   META.sw = META.sw || {}; META.swE = META.swE || "";
+  META.gv = META.gv || {}; META.gvE = META.gvE || "";
   /* old colour/glow borders were retired: refund them in souls */
   if (!META.bdv) {
     const old = { ink: 40, slab: 60, links: 110, blood: 130, moon: 200, ember: 230, frost: 230, void: 380, signal: 360, gilt: 750, soulfire: 950 };
@@ -88,7 +91,8 @@
   const curN = () => (META.bn[META.bnE] ? META.bnE : "");
   const curG = () => (META.bg[META.bgE] ? META.bgE : "");
   const curS = () => (META.sw[META.swE] ? META.swE : "");
-  const eqd = () => [curB, curN, curG, curS][tab]();
+  const curV = () => (META.gv[META.gvE] ? META.gvE : "");
+  const eqd = () => [curB, curN, curG, curS, curV][tab]();
 
   /* frame around the game screen + theme class on body (restyles stat boxes, typing box, chat bubble) */
   const frame = document.createElement("div");
@@ -118,11 +122,13 @@
   function draw() {
     const eq = eqd();
     ov.innerHTML =
-      '<div class="sh-h"><h2>Shop</h2><small>Dress the frame of your hunt</small><span class="sh-s">\u9B42 <b>' + META.souls + "</b> souls</span></div>" +
+      '<div class="sh-h"><h2>Shop</h2><small>Dress the frame of your hunt, and teach the ghost to talk</small><span class="sh-s">\u9B42 <b>' + META.souls + "</b> souls</span></div>" +
       '<div class="sh-t"><kbd>Q</kbd>' + TABS.map((t, k) => '<i data-t="' + k + '" class="' + (k === tab ? "on" : "") + '">' + t[0] + "</i>").join("") + '<kbd>E</kbd></div><div class="sh-g">' +
       list().map((b, i) => {
         const o = own(b[0]), e = b[0] === eq, can = META.souls >= b[3];
-        const pv = tab === 1
+        const pv = tab === 4
+          ? '<div class="sh-p pvv"><div class="bars">' + [0, 1, 2, 3, 4, 5, 6].map(n => '<i style="--n:' + n + ';--h:' + (10 + ((b[0].length * 7 + n * 11 + b[4] * 5) % 30)) + 'px"></i>').join("") + '</div><button class="pvbtn" data-v="' + b[0] + '">\u25B6 Hear</button></div>'
+          : tab === 1
           ? '<div class="sh-p ' + (b[0] ? "pvr pr-" + b[0] : "pvd") + '"><div class="rw"><i class="tg"></i><i class="rg"></i><strong>F</strong></div></div>'
           : tab === 3
           ? '<div class="sh-p pvs sw-' + (b[0] || "none") + '">' + pjHtml() + '<i class="sw"></i><i class="sw s2"></i><em>cut it down</em></div>'
@@ -133,7 +139,7 @@
           "<b>" + b[1] + "</b><small>" + (b[0] ? RN[b[4]] + " " + "\u25C6".repeat(b[4] + 1) : "DEFAULT") + "</small><span>" + b[2] + "</span>" +
           "<button" + (!o && !can ? ' class="no"' : "") + ">" + (e ? "Equipped" : o ? "Equip" : "Buy \u00B7 " + b[3] + " souls") + "</button></div>";
       }).join("") +
-      '</div><p class="sb">' + ["Borders restyle the stat boxes, typing box, chat bubble and screen edge.", "Parry ring skins change the shape of the shrinking ring when an enemy attack is parried.", "Backgrounds add a faint pattern behind the words you type.", "Slash colors change the color of your sword cuts, and of the swords, arrows and other attacks you fire as you type."][tab] + " Q / E switch tabs. Esc to close.</p>";
+      '</div><p class="sb">' + ["Borders restyle the stat boxes, typing box, chat bubble and screen edge.", "Parry ring skins change the shape of the shrinking ring when an enemy attack is parried.", "Backgrounds add a faint pattern behind the words you type.", "Slash colors change the color of your sword cuts, and of the swords, arrows and other attacks you fire as you type.", "Ghost voices change how Count Boo-La talks. Press Hear to listen before you buy. Turn the ghost off in Settings."][tab] + " Q / E switch tabs. Esc to close.</p>";
   }
 
   function act(i) {
@@ -160,6 +166,7 @@
     }
     saveMeta();
     paint();
+    if (tab === 4) { try { GHOST.preview(id); } catch (e) {} }
     const top = ov.scrollTop;
     sel = i;
     draw();
@@ -174,7 +181,14 @@
   }
 
   const highlight = () => ov.querySelectorAll(".sh-c").forEach((c, i) => c.classList.toggle("sel", i === sel));
+  function hear(btn) {
+    const box = btn.closest(".pvv");
+    try { GHOST.preview(btn.dataset.v); } catch (e) {}
+    if (box) { box.classList.add("playing"); clearTimeout(box._t); box._t = setTimeout(() => box.classList.remove("playing"), 2200); }
+  }
   ov.addEventListener("click", e => {
+    const hb = e.target.closest(".pvbtn");
+    if (hb) { e.stopPropagation(); hear(hb); return; }
     const t = e.target.closest(".sh-t i");
     if (t) { setTab(+t.dataset.t); return; }
     const c = e.target.closest(".sh-c");
@@ -197,6 +211,7 @@
     }, k = e.key.toLowerCase();
     if (k === "q") { e.preventDefault(); e.repeat || setTab((tab + TABS.length - 1) % TABS.length); }
     else if (k === "e") { e.preventDefault(); e.repeat || setTab((tab + 1) % TABS.length); }
+    else if (k === "h" && tab === 4) { e.preventDefault(); e.repeat || (() => { const b = list()[sel]; try { b && GHOST.preview(b[0]); } catch (x) {} })(); }
     else if (e.key === "ArrowRight" || e.key === "ArrowDown") mv(1);
     else if (e.key === "ArrowLeft" || e.key === "ArrowUp") mv(-1);
     else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.repeat || act(sel); }
@@ -204,7 +219,7 @@
 
   /* main menu entry, right after Heroes & Skills */
   const at = MAIN.findIndex(x => x[0] === "meta");
-  MAIN.splice(at < 0 ? MAIN.length - 1 : at + 1, 0, ["shop", "Shop", "Borders, rings and backgrounds"]);
+  MAIN.splice(at < 0 ? MAIN.length - 1 : at + 1, 0, ["shop", "Shop", "Borders, rings, backgrounds and ghost voices"]);
   const _ma = mainAct;
   mainAct = function (i) {
     if (MAIN[i] && MAIN[i][0] === "shop") { sel = 0; draw(); ov.classList.add("on"); return; }
