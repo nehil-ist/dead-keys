@@ -114,3 +114,10 @@ body.swc #tp.ult[data-u=oni] #ultv{background:repeating-linear-gradient(45deg,rg
 .sh-p.pvs.sw-prism .pj svg{animation:pvh 1.8s linear infinite}
 @keyframes pvj{0%{left:4%;top:62%;opacity:0}4%{opacity:1}16%{left:48%;top:50%;opacity:1}20%,100%{left:52%;top:49%;opacity:0}}
 @keyframes pvh{from{filter:drop-shadow(0 0 5px currentColor) hue-rotate(0deg)}to{filter:drop-shadow(0 0 5px currentColor) hue-rotate(360deg)}}
+
+/* Fix: the FINISH / CUT / PARRIED stamps (.xst.sk) and their kanji (.xkj.sk) reuse the class name "sk",
+   which main.css defines as the tiny 3x12px spark particle. Undo everything the spark rule leaks onto them
+   so they keep their own size, centering, background and animation (CRITICAL uses .xst.crit, so it was unaffected). */
+.xst.sk{left:50%;top:38%;width:auto;height:auto;background:none;animation:xst .75s cubic-bezier(.2,1.6,.3,1) forwards}
+.xst.sk b{white-space:nowrap}
+.xkj.sk{left:0;top:0;width:auto;height:auto;background:none;animation:xkj .5s ease-out forwards}
