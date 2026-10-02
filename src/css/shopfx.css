@@ -1,0 +1,25 @@
+.rfx{position:absolute;pointer-events:none;z-index:70;translate:-50% -50%}
+.rfx.ring{width:40px;height:40px;border-radius:50%;border:3px solid var(--c);box-shadow:0 0 18px rgba(var(--g),.8),inset 0 0 12px rgba(var(--g),.6);animation:rfRing .8s ease-out both}
+@keyframes rfRing{from{scale:.3;opacity:1}to{scale:var(--s);opacity:0}}
+.rfx.spk{width:var(--w);height:var(--w);background:var(--c);box-shadow:0 0 8px var(--c);rotate:45deg;animation:rfSpk 1s cubic-bezier(.1,.7,.3,1) both}
+@keyframes rfSpk{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 60px)) rotate(var(--rot));opacity:0}}
+.rfx.ghost{border:4px solid var(--c);box-shadow:0 0 40px rgba(var(--g),.9),inset 0 0 40px rgba(var(--g),.5);background:rgba(var(--g),.18);animation:rfGhost .75s ease-out both}
+.rfx.ghost.gold{background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%) 0 0/250% 100%,rgba(var(--g),.25);animation:rfGhost .9s ease-out both,rfShine .9s ease-out both}
+@keyframes rfGhost{from{scale:1;opacity:1}to{scale:1.45;opacity:0}}
+@keyframes rfShine{from{background-position:120% 0}to{background-position:-40% 0}}
+.rfx.tag{font:800 var(--sz) 'Space Grotesk',Inter,sans-serif;letter-spacing:.22em;color:var(--c);text-shadow:0 0 12px rgba(var(--g),.9),0 2px 0 #000;white-space:nowrap;animation:rfTag 1.2s ease-out both}
+@keyframes rfTag{0%{transform:translateY(0) scale(.6);opacity:0}15%{transform:translateY(-14px) scale(1.15);opacity:1}100%{transform:translateY(-70px) scale(1);opacity:0}}
+.rfx.pillar{translate:-50% -100%;margin-top:40px;background:linear-gradient(0deg,rgba(var(--g),.0),rgba(var(--g),.55) 40%,rgba(var(--g),0));transform-origin:50% 100%;animation:rfPillar 1.1s ease-out both}
+@keyframes rfPillar{0%{scale:.2 0;opacity:1}30%{scale:1 1;opacity:1}100%{scale:1.3 1;opacity:0}}
+.rfx.rune{width:230px;height:230px;border-radius:50%;border:2px dashed var(--c);box-shadow:0 0 24px rgba(var(--g),.6);animation:rfRune 1.2s ease-out both}
+.rfx.rune:after{content:"";position:absolute;inset:22px;border-radius:50%;border:2px solid var(--c);opacity:.7}
+@keyframes rfRune{from{rotate:0deg;scale:.4;opacity:1}to{rotate:200deg;scale:1.5;opacity:0}}
+.rfx.rays{width:var(--len);height:var(--len);border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(var(--g),.55) 0 4deg,transparent 4deg 15deg);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 68%);mask-image:radial-gradient(circle,#000 0,transparent 68%);animation:rfRays 1.5s ease-out both}
+@keyframes rfRays{from{rotate:0deg;scale:.3;opacity:1}to{rotate:50deg;scale:1.2;opacity:0}}
+.rfx.flash{inset:0;left:0;top:0;translate:none;background:radial-gradient(circle at 50% 50%,rgba(var(--g),var(--a)),transparent 75%);animation:rfFlash .6s ease-out both}
+@keyframes rfFlash{from{opacity:1}to{opacity:0}}
+.rfx.stamp{left:50%;top:34%;font:900 var(--sz)/1 'Space Grotesk',Inter,sans-serif;letter-spacing:.14em;color:#0a0a0a;background:var(--c);padding:.08em .5em;box-shadow:8px 8px 0 #000,0 0 40px var(--c);white-space:nowrap;animation:rfStamp 1.1s cubic-bezier(.2,1.4,.3,1) both}
+@keyframes rfStamp{0%{transform:scale(2.6) skewX(-10deg) rotate(-6deg);opacity:0}18%{transform:scale(1) skewX(-10deg) rotate(-3deg);opacity:1}80%{transform:scale(1) skewX(-10deg) rotate(-3deg);opacity:1}100%{transform:scale(1.1) skewX(-10deg) rotate(-3deg);opacity:0}}
+.rfx.ember{top:100%;width:var(--w);height:var(--w);border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);animation:rfEmber 2.4s ease-out both}
+@keyframes rfEmber{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-105vh);opacity:0}}
+@media(prefers-reduced-motion:reduce){.rfx.rays,.rfx.rune,.rfx.pillar,.rfx.ember{display:none}}
