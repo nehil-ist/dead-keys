@@ -58,3 +58,66 @@
 #ovSh .sh-t i{padding:3px 12px}
 #ovSh .sh-p.pvg{padding:0}
 #ovSh .pvg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* wardrobe effects (gx-*): work in the shop previews and on the in-game ghost */
+[class*="gx-"]{transform-box:fill-box;transform-origin:50% 50%}
+@keyframes gxFl{0%,100%{scale:1 1;opacity:.95}30%{scale:.9 1.14}60%{scale:1.08 .92;opacity:.8}}
+.gx-fl{transform-origin:50% 100%;animation:gxFl .6s ease-in-out infinite}
+.gx-fl.gx-b{animation-duration:.8s;animation-delay:-.3s}.gx-fl.gx-c{animation-duration:.5s;animation-delay:-.2s}
+@keyframes gxFw{from{scale:1 1;opacity:.95}to{scale:.88 1.12;opacity:.75}}
+.gx-fw{transform-origin:100% 50%;animation:gxFw .7s ease-in-out infinite alternate}
+.gx-fw.gx-b{animation-duration:.9s;animation-delay:-.3s}.gx-fw.gx-c{animation-duration:.55s;animation-delay:-.5s}
+@keyframes gxTw{0%,100%{scale:1;opacity:1}50%{scale:.35;opacity:.3}}
+.gx-tw{animation:gxTw 1.4s ease-in-out infinite}
+.gx-tw.gx-b{animation-delay:-.45s}.gx-tw.gx-c{animation-delay:-.9s}
+@keyframes gxPu{0%,100%{opacity:.25}50%{opacity:1}}
+.gx-pu{animation:gxPu 1.6s ease-in-out infinite}.gx-pu.gx-b{animation-delay:-.8s}
+@keyframes gxGh{0%,100%{opacity:.5}50%{opacity:.95}}
+.gx-gh{animation:gxGh 2.4s ease-in-out infinite}
+@keyframes gxRs{0%{translate:0 0;opacity:0}15%{opacity:1}100%{translate:var(--dx,0) -28px;opacity:0}}
+.gx-rs{animation:gxRs 1.9s ease-out infinite}.gx-rs.gx-b{animation-delay:-.6s}.gx-rs.gx-c{animation-delay:-1.2s}
+@keyframes gxFa{0%{translate:0 0;opacity:0}20%{opacity:1}100%{translate:0 22px;opacity:0}}
+.gx-fa{animation:gxFa .9s linear infinite}.gx-fa.gx-b{animation-delay:-.3s}.gx-fa.gx-c{animation-delay:-.6s}.gx-fa.gx-d{animation-delay:-.15s}
+.gx-fa.gx-e{animation-duration:2.2s}.gx-fa.gx-f{animation-duration:2.2s;animation-delay:-1.1s}.gx-fa.gx-g{animation-duration:2.6s;animation-delay:-.7s}
+@keyframes gxFh{0%,84%,100%{opacity:0}86%,90%{opacity:1}88%{opacity:.15}}
+.gx-fh{animation:gxFh 3s linear infinite}
+@keyframes gxSc{from{translate:0 0}to{translate:58px 0}}
+.gx-sc{animation:gxSc 1.1s ease-in-out infinite alternate}
+@keyframes gxSw{0%,100%{rotate:-3deg}50%{rotate:3deg}}
+.gx-sw{transform-origin:50% 0;animation:gxSw 2.6s ease-in-out infinite}
+.gx-sw.gx-l{transform-origin:0 50%;animation-duration:.9s}
+@keyframes gxSg{0%,100%{rotate:-9deg}50%{rotate:9deg}}
+.gx-sg{transform-origin:50% 0;animation:gxSg 2s ease-in-out infinite}
+@keyframes gxSh{0%,55%{translate:-70px 0}100%{translate:150px 0}}
+.gx-sh{transform-box:view-box;animation:gxSh 3.4s ease-in-out infinite}
+@keyframes gxHue{to{filter:hue-rotate(360deg)}}
+.gx-hue{animation:gxHue 5s linear infinite}
+@keyframes gxBm{0%,100%{opacity:.55}50%{opacity:1}}
+.gx-bm{animation:gxBm .7s ease-in-out infinite}.gx-bm.gx-b{animation-delay:-.35s}
+@media (prefers-reduced-motion:reduce){[class*="gx-"]{animation:none!important}}
+
+/* Settings: more sound rows now (music, reverb, warmth) - keep them compact and scrollable from the top */
+#s-set{justify-content:safe center!important}
+#s-set .sr{padding:9px 20px;margin:4px 0}
+#s-set .sr em{font-size:.78rem;margin-top:0}
+#s-set #slist{margin:6px auto}
+
+/* Results screen ("You fell") always sits above arena / level-up / bonfire / boss-intro layers */
+#tpr{z-index:50!important}
+
+/* Pause screen: slide-in animations pushed content past the edge and flashed scrollbars. Never scroll sideways; vertical scroll only if truly needed. */
+#tpp .pc,#tppi{overflow-x:hidden!important;overflow-y:auto}
+#tppi{overscroll-behavior:contain}
+
+/* Blood Countess megaboss: extra art classes + life (hair, gown, gem, drip) */
+#mgb .th{fill:none;stroke:#0a0a0a;stroke-width:1.6;stroke-linecap:round;opacity:.7}
+#mgb .hlo{fill:#e9e5dc;opacity:.09}
+#mgb .hr{transform-box:fill-box;transform-origin:50% 0;animation:cnHair 3.4s ease-in-out infinite alternate}
+#mgb .sk{transform-box:fill-box;transform-origin:50% 0;animation:cnSkirt 2.8s ease-in-out infinite alternate}
+#mgb .gm{animation:cnGem 2s ease-in-out infinite alternate}
+#mgb .dr{transform-box:fill-box;animation:cnDrip 2.6s ease-in infinite}
+@keyframes cnHair{to{transform:skewX(-4deg) rotate(1.5deg)}}
+@keyframes cnSkirt{to{transform:skewX(2.5deg) scaleY(1.015)}}
+@keyframes cnGem{to{opacity:.3}}
+@keyframes cnDrip{0%{translate:0 -4px;opacity:0}15%{opacity:1}80%{translate:0 18px;opacity:1}100%{translate:0 22px;opacity:0}}
+#mg[data-p="2"] #mgb .hlo{opacity:.18}

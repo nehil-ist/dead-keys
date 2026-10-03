@@ -1,0 +1,7 @@
+/* Strike impact: shockwave ring + flash. Zoom/tilt is done in impact.js via the scale/rotate properties */
+#tp .ixw{position:absolute;left:50%;top:45%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:5px solid #fff;pointer-events:none;z-index:10;opacity:0;animation:ixw .55s cubic-bezier(.1,.7,.2,1) forwards}
+#tp .ixw.big{border-width:9px;animation-duration:.8s}
+@keyframes ixw{0%{transform:scale(.2);opacity:.95}100%{transform:scale(var(--ixs,9));opacity:0;border-width:1px}}
+#tp .ixf{position:absolute;inset:0;pointer-events:none;z-index:11;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.85),rgba(255,255,255,.18) 40%,transparent 70%);opacity:0;animation:ixf .32s ease-out forwards}
+#tp .ixf.big{background:radial-gradient(circle at 50% 45%,#fff,rgba(255,255,255,.35) 45%,rgba(0,0,0,.55) 100%);animation-duration:.5s}
+@keyframes ixf{0%{opacity:1}100%{opacity:0}}

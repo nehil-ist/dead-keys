@@ -31,7 +31,7 @@
     ["music", "Coffin Music Box", "Each letter is a tiny bell from a haunted music box.", 290, 2,
       { wave: "sine", base: 880, spread: 12, dur: .22, cps: 14, fm: 0, gain: .42, bell: 1, pent: 1 }],
     ["chip", "Chiptune Fiend", "Pure 8-bit square-wave menace.", 420, 3,
-      { wave: "square", base: 440, spread: 10, dur: .06, cps: 22, fm: 0, gain: .4, chip: 1, lp: 5200 }],
+      { wave: "square", base: 440, spread: 10, dur: .06, cps: 22, fm: 0, gain: .45, chip: 1, lp: 2900 }],
     ["choir", "Blood Moon Choir", "A whole crimson choir speaking in one voice.", 800, 4,
       { wave: "sawtooth", base: 260, spread: 6, dur: .2, cps: 13, fm: 1.1, gain: .5, lay: [-18, 0, 15, 1200], vib: [4.5, .01], glide: .04, lp: 3600, oct: 1 }]
   ];
@@ -52,7 +52,9 @@
     if (!master || master.context !== c) {
       master = c.createGain();
       master.gain.value = .6;
-      master.connect(AU.sfx);
+      const soft = c.createBiquadFilter();
+      soft.type = "lowpass"; soft.frequency.value = 6200; soft.Q.value = .4;
+      master.connect(soft); soft.connect(AU.sfx);
     }
     return master;
   }
@@ -61,7 +63,8 @@
     if (!nbuf || nbuf.sampleRate !== c.sampleRate) {
       nbuf = c.createBuffer(1, c.sampleRate, c.sampleRate);
       const d = nbuf.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      let lp = 0;
+      for (let i = 0; i < d.length; i++) { lp += (Math.random() * 2 - 1 - lp) * .5; d[i] = lp * 1.4; }
     }
     const s = c.createBufferSource();
     s.buffer = nbuf; s.loop = true;
@@ -82,8 +85,8 @@
     let f = p.base * Math.pow(2, semi / 12);
     const vow = VF[ch.toLowerCase()] || (code % 2 ? VF.o : VF.e);
     const g = c.createGain();
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(p.gain, t + .01);
+    g.gain.setValueAtTime(1e-4, t);
+    g.gain.linearRampToValueAtTime(p.gain, t + Math.min(.014, d * .3));
     g.gain.exponentialRampToValueAtTime(1e-4, t + d);
     g.connect(o);
 
@@ -109,7 +112,7 @@
       if (p.chip) {
         os.frequency.cancelScheduledValues(t);
         os.frequency.setValueAtTime(f, t);
-        os.frequency.setValueAtTime(f * 1.26, t + d * .5);
+        os.frequency.setTargetAtTime(f * 1.26, t + d * .5, .005);
       }
       if (p.vib) {
         const l = c.createOscillator(), lg = c.createGain();
@@ -132,13 +135,13 @@
       });
     } else {
       const lp = c.createBiquadFilter();
-      lp.type = "lowpass"; lp.frequency.value = p.lp || 6000;
+      lp.type = "lowpass"; lp.frequency.value = p.lp || 4200;
       src.forEach(s => s.connect(lp));
       lp.connect(g);
     }
-    if (p.lp && p.fm) {
+    if (p.fm) {
       const lp = c.createBiquadFilter();
-      lp.type = "lowpass"; lp.frequency.value = p.lp;
+      lp.type = "lowpass"; lp.frequency.value = p.lp || 3400; lp.Q.value = .4;
       g.disconnect(); g.connect(lp); lp.connect(o);
     }
   }
@@ -152,14 +155,14 @@
     const c = AU.ctx, o = out();
     if (!c || !o || !ST.gvoice || !ST.sfx) return;
     const t = c.currentTime + .01, os = c.createOscillator(), g = c.createGain(), lp = c.createBiquadFilter();
-    os.type = p.chip ? "square" : p.wave === "sawtooth" ? "sawtooth" : "sine";
+    os.type = p.chip || p.wave === "sawtooth" ? "triangle" : "sine";
     os.frequency.setValueAtTime(p.base * .7, t);
     os.frequency.exponentialRampToValueAtTime(p.base * 1.5, t + .5);
     os.frequency.exponentialRampToValueAtTime(p.base * .5, t + 1.1);
     const l = c.createOscillator(), lg = c.createGain();
     l.frequency.value = 6; lg.gain.value = p.base * .05; l.connect(lg); lg.connect(os.frequency);
     lp.type = "lowpass"; lp.frequency.value = 1800;
-    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(p.gain * .8, t + .25);
+    g.gain.setValueAtTime(1e-4, t); g.gain.linearRampToValueAtTime(p.gain * .8, t + .25);
     g.gain.exponentialRampToValueAtTime(1e-4, t + 1.15);
     os.connect(lp); lp.connect(g); g.connect(o);
     os.start(t); l.start(t); os.stop(t + 1.2); l.stop(t + 1.2);
@@ -168,8 +171,8 @@
     const c = AU.ctx, o = out();
     if (!c || !o || !ST.sfx || !ST.gvoice) return;
     const t = c.currentTime + .01, s = noiseSrc(c, .35), bp = c.createBiquadFilter(), g = c.createGain();
-    bp.type = "bandpass"; bp.Q.value = 1.2;
-    bp.frequency.setValueAtTime(900, t); bp.frequency.exponentialRampToValueAtTime(5000, t + .3);
+    bp.type = "bandpass"; bp.Q.value = .8;
+    bp.frequency.setValueAtTime(700, t); bp.frequency.exponentialRampToValueAtTime(4200, t + .3);
     g.gain.setValueAtTime(.0001, t); g.gain.linearRampToValueAtTime(.28, t + .06);
     g.gain.exponentialRampToValueAtTime(1e-4, t + .33);
     s.connect(bp); bp.connect(g); g.connect(o);
@@ -304,7 +307,7 @@
     const dt = Math.min(.05, (now - (last || now)) / 1000); last = now;
     if (now - chk > 200) {
       chk = now; setCtx();
-      if (now - S.rt > 600) { S.rt = now; refreshRects(); }
+      if (now - S.rt > (S.ctx === "game" ? 3000 : 600)) { S.rt = now; refreshRects(); }
       if (S.vis) watch(now);
     }
     if (!S.vis) return;
@@ -318,15 +321,20 @@
     const t = (now - S.t0) / 1000, bob = RM ? 0 : Math.sin(t * 2.1) * 7 + Math.sin(t * 1.3) * 3;
     const tilt = Math.max(-14, Math.min(14, S.vx * .05));
     gh.style.transform = "translate3d(" + S.x.toFixed(1) + "px," + (S.y + bob).toFixed(1) + "px,0)";
-    gs.style.transform = "scale(" + (S.face * k).toFixed(3) + "," + k + ") rotate(" + (tilt * S.face).toFixed(1) + "deg)";
+    const gst = "scale(" + (S.face * k).toFixed(2) + "," + k.toFixed(2) + ") rotate(" + (Math.round(tilt * S.face * 2) / 2) + "deg)";
+    if (gst !== S._gst) { S._gst = gst; gs.style.transform = gst; }
     // bubble placement: keep inside the screen, flip below the ghost near the top
     const gw = 130 * k, gh2 = 150 * k;
     const bx = Math.max(8 - S.x, Math.min(FIT.w - 8 - S.bw - S.x, gw / 2 - S.bw / 2));
     const below = S.y - S.bh - 20 < 4;
-    bub.style.left = bx.toFixed(0) + "px";
-    bub.style.top = (below ? gh2 + 4 : -S.bh - 14) + "px";
-    bub.classList.toggle("bl", below);
-    bub.style.setProperty("--ax", Math.max(14, Math.min(S.bw - 14, gw / 2 - bx)).toFixed(0) + "px");
+    const bk = bx.toFixed(0) + "|" + below + "|" + S.bw + "|" + S.bh;
+    if (bk !== S._bk) {
+      S._bk = bk;
+      bub.style.left = bx.toFixed(0) + "px";
+      bub.style.top = (below ? gh2 + 4 : -S.bh - 14) + "px";
+      bub.classList.toggle("bl", below);
+      bub.style.setProperty("--ax", Math.max(14, Math.min(S.bw - 14, gw / 2 - bx)).toFixed(0) + "px");
+    }
     // in game, fade out while floating over the typing box so it never hides a letter
     gh.classList.toggle("ovr", S.ctx === "game" && hits(S.x, S.y, gw, gh2));
     tickTalk(now);
@@ -387,7 +395,7 @@
       try { aInit(); } catch (e) {}
       const p = voiceById(id);
       const line = pick(["Good evening. I'd like to drink your typos.", "Boo! Do I sound fabulous or what?", "Count Boo-La, at your service."]);
-      S.vis ? speak(line, { force: true, pack: p, cut: true, preview: true }) : (function () { let i = 0; const q = line; const iv = setInterval(() => { if (i >= q.length) return clearInterval(iv); blip(p, q[i], 0, true); i++; }, 1000 / p.cps); })();
+      S.vis ? speak(line, { force: true, pack: p, cut: true, preview: true }) : (function () { clearInterval(window.__pvIv); let i = 0; const q = line; const iv = window.__pvIv = setInterval(() => { if (i >= q.length) return clearInterval(iv); blip(p, q[i], 0, true); i++; }, 1000 / p.cps); })();
       return line;
     },
     say(text) { speak(text, { cut: true }); },

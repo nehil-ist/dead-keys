@@ -1,0 +1,79 @@
+/* Ritual: combo cracks/ink/red tint, boss name cards, death screen. Palette matches the game: #0a0a0a / #e9e5dc / blood red. */
+
+/* ---------- 1. typing changes the world (perf: only opacity/transform animate, no filters, no custom-property repaints) ---------- */
+#rtl{position:absolute;inset:0;pointer-events:none;overflow:hidden;contain:strict}
+#rtl .rl-red{position:absolute;inset:0;opacity:0;will-change:opacity;transition:opacity 2.4s ease-out;
+  background:radial-gradient(ellipse at 50% 45%,rgba(120,0,12,.12) 25%,rgba(150,8,20,.6) 100%)}
+#rtl .rl-ink{position:absolute;inset:0;opacity:0;transition:opacity 2.4s ease-out}
+#rtl .ik{position:absolute;aspect-ratio:1;height:auto;transform:scale(.3);will-change:transform;transition:transform 2.4s ease-out}
+#rtl .i0{left:0;top:0;width:63%;transform-origin:0 0}
+#rtl .i1{right:0;top:0;width:48%;transform-origin:100% 0}
+#rtl .i2{left:0;bottom:0;width:44%;transform-origin:0 100%}
+#rtl .i3{right:0;bottom:0;width:69%;transform-origin:100% 100%}
+#rtl .rl-cr{position:absolute;inset:0;width:100%;height:100%;will-change:transform}
+#rtl path{fill:none;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:var(--l);stroke-dashoffset:var(--l);transition:stroke-dashoffset .8s cubic-bezier(.2,.7,.2,1)}
+#rtl path.m{stroke:#e9e5dc}
+#rtl path.g{stroke:#8a0b16;opacity:.55}  /* fake glow: a fat red stroke under the bone-white one, no drop-shadow filter */
+#rtl path.b{opacity:.75}
+#rtl path.g.b{opacity:.4}
+#rtl path.on{stroke-dashoffset:0}
+/* streak broke: everything drains fast */
+#rtl.rec .rl-red,#rtl.rec .rl-ink,#rtl.rec .ik{transition-duration:.45s;transition-timing-function:ease-in}
+#rtl.rec path{transition-duration:.3s}
+
+/* ---------- 2. boss name card ---------- */
+#rtb{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+#rtb .bf{position:absolute;inset:0;background:#fff;opacity:0;animation:rtbF .35s ease-out forwards}
+#rtb .bd{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;animation:rtbD 1.9s ease-out forwards}
+#rtb .b1,#rtb .b2{position:absolute;left:-12%;width:124%;transform-origin:0 50%;transform:rotate(-5deg) scaleX(0)}
+#rtb .b1{top:21%;height:34%;background:#b3121c;animation:rtbIn .26s .02s cubic-bezier(.2,.9,.2,1) forwards,rtbOut .22s 1.55s ease-in forwards}
+#rtb .b2{top:25%;height:30%;background:#0a0a0a;border-block:3px solid #e9e5dc;animation:rtbIn .26s .1s cubic-bezier(.2,.9,.2,1) forwards,rtbOut .22s 1.5s ease-in forwards}
+#rtb .bk{position:absolute;right:5%;top:8%;font:900 clamp(150px,34vmin,320px)/1 "Noto Serif JP",serif;color:#e9e5dc;text-shadow:6px 6px 0 #b3121c;opacity:0;animation:rtbK 1.7s .12s ease-out forwards}
+#rtb .bt{position:absolute;left:6%;top:30%;max-width:62%;opacity:0;animation:rtbT 1.6s .25s ease-out forwards}
+#rtb .bt small{display:block;font:700 clamp(10px,1.6vw,14px) "JetBrains Mono",monospace;letter-spacing:.4em;text-transform:uppercase;color:#d9262f;margin-bottom:.3em}
+#rtb .bt b{display:block;font:italic 800 clamp(30px,7.5vw,72px)/1 Inter,sans-serif;text-transform:uppercase;letter-spacing:-.01em;color:#e9e5dc;transform:skewX(-8deg);text-shadow:3px 3px 0 #b3121c}
+#rtb .bt em{display:block;margin-top:.7em;font:500 clamp(11px,1.8vw,16px)/1.4 "JetBrains Mono",monospace;color:#e9e5dc;opacity:.85;font-style:normal}
+@keyframes rtbF{0%{opacity:.9}100%{opacity:0}}
+@keyframes rtbD{0%{opacity:0}12%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@keyframes rtbIn{to{transform:rotate(-5deg) scaleX(1)}}
+@keyframes rtbOut{to{transform:rotate(-5deg) scaleX(0);transform-origin:100% 50%}}
+@keyframes rtbK{0%{opacity:0;transform:scale(2.6) rotate(-8deg);filter:brightness(4)}14%{opacity:1;transform:scale(1) rotate(0);filter:brightness(1)}80%{opacity:1;transform:scale(1.04)}100%{opacity:0;transform:scale(1.1)}}
+@keyframes rtbT{0%{opacity:0;transform:translateX(-40px)}12%{opacity:1;transform:none}82%{opacity:1}100%{opacity:0;transform:translateX(30px)}}
+
+/* ---------- 3. death ritual ---------- */
+#rtd{position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:#050303;color:#e9e5dc;text-align:center;overflow:hidden;opacity:0;animation:rtdIn .4s ease-out forwards}
+#rtd.out{animation:rtdOut .3s ease-in forwards}
+#rtd .v{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 25%,rgba(120,0,12,.8) 100%);animation:rtdV 2.4s ease-in-out infinite}
+#rtd .k{position:absolute;font:900 clamp(240px,64vmin,560px)/1 "Noto Serif JP",serif;color:#b3121c;opacity:0;animation:rtdK 1.4s .2s ease-out forwards}
+#rtd .w{position:relative;opacity:0;animation:rtdW .5s .75s ease-out forwards}
+#rtd .w small{display:block;font:700 clamp(10px,1.6vw,13px) "JetBrains Mono",monospace;letter-spacing:.4em;text-transform:uppercase;opacity:.6;margin-bottom:.4em}
+#rtd .w p{margin:0;font:700 clamp(30px,9vw,76px)/1.1 "JetBrains Mono",monospace;letter-spacing:.04em}
+#rtd .w .ok,#rtd .w .no{display:inline-block}
+#rtd .w .no{color:#b3121c}
+#rtd .w .ok{animation:rtdOk .3s 1.15s ease-out forwards}
+#rtd .w .no{animation:rtdNo .3s 1.15s ease-out forwards}
+#rtd .w::after{content:"";position:absolute;left:-6%;right:-6%;top:58%;height:3px;background:#fff;box-shadow:0 0 14px 2px #b3121c;transform:rotate(-7deg) scaleX(0);animation:rtdSl .16s 1.1s ease-out forwards}
+/* Rivals-style elimination tag: slanted blood-red plate */
+#rtd .tg{position:relative;margin-top:.9em;padding:.4em 1.4em;background:#b3121c;color:#e9e5dc;font:800 clamp(10px,1.6vw,13px) "JetBrains Mono",monospace;letter-spacing:.45em;text-indent:.45em;text-transform:uppercase;transform:skewX(-14deg) scaleX(0);transform-origin:0 50%;opacity:0;animation:rtdTg .22s 1.25s cubic-bezier(.2,.9,.2,1) forwards}
+#rtd h2{position:relative;margin:.3em 0 0;font:italic 800 clamp(26px,7vw,60px)/1 Inter,sans-serif;text-transform:uppercase;letter-spacing:.5em;opacity:0;animation:rtdH 1.1s 1.3s ease-out forwards}
+#rtd em{position:relative;font:500 clamp(11px,1.8vw,15px) "JetBrains Mono",monospace;font-style:normal;letter-spacing:.12em;color:#d9262f;opacity:0;animation:rtdFade .5s 1.8s forwards}
+#rtd .h{position:absolute;bottom:7%;font:700 11px "JetBrains Mono",monospace;letter-spacing:.35em;text-transform:uppercase;opacity:0;animation:rtdBl 1.4s 2.2s ease-in-out infinite}
+@keyframes rtdIn{to{opacity:1}}
+@keyframes rtdOut{from{opacity:1}to{opacity:0}}
+@keyframes rtdV{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes rtdK{0%{opacity:0;transform:scale(1.5)}100%{opacity:.2;transform:scale(1)}}
+@keyframes rtdW{0%{opacity:0;filter:brightness(3)}100%{opacity:1;filter:none}}
+@keyframes rtdSl{to{transform:rotate(-7deg) scaleX(1)}}
+@keyframes rtdOk{to{transform:translate(-6px,-5px) rotate(-1.5deg)}}
+@keyframes rtdNo{to{transform:translate(7px,6px) rotate(2deg)}}
+@keyframes rtdTg{to{opacity:1;transform:skewX(-14deg) scaleX(1)}}
+@keyframes rtdH{0%{opacity:0;letter-spacing:.7em}100%{opacity:1;letter-spacing:.14em}}
+@keyframes rtdFade{to{opacity:1}}
+@keyframes rtdBl{0%,100%{opacity:.15}50%{opacity:.6}}
+
+@media (prefers-reduced-motion:reduce){
+  #rtl *,#rtl.rec *{transition:none!important}
+  #rtb .bf,#rtb .bk,#rtb .b1,#rtb .b2{animation-duration:.01s}
+  #rtd,#rtd *{animation-duration:.01s!important;animation-delay:0s!important}
+}

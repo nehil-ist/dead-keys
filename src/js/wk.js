@@ -23,7 +23,7 @@ el.innerHTML='<i class="dt"></i><div class="rs">'+rose+'</div><i class="mn"></i>
 +'<div class="sg"><u>ACT 0</u><div><small>STAGE 1</small><b>HOLLOW ROAD</b></div></div>'
 +'<div class="pg"><i>黄泉</i><b>PRESS ANY KEY</b></div><div class="hn">ANY KEY · SKIP</div>'
 +'<i class="fl a"></i><i class="fl b"></i><i class="fl c"></i><i class="ex"></i>';
-APP.appendChild(el);
+APP.appendChild(el);window.__intro=1;
 let st=0,M=null,tm=0;
 const snd=()=>{try{
  aInit();if(!AU.ctx||!ST.sfx)return;
@@ -32,23 +32,23 @@ const snd=()=>{try{
  const bell=(f,x,v,d)=>[1,2.76,5.4,8.9].forEach((k,i)=>tone(f*k,t+x,(d||2.8)-i*.4,'sine',v/(i+1),M));
  const boom=(x,v)=>{sweep(150,34,t+x,.55,'sine',v,M);noise(t+x,.35,v*.35,200,M);tone(55,t+x,.5,'triangle',v*.5,M,300)};
  // drone pad under everything
- [55,82.4,110,164.8].forEach((f,i)=>tone(f,t,6.4,'sawtooth',.03,M,420+i*80));
+ [55,82.4,110,164.8].forEach((f,i)=>tone(f,t,6.4,'triangle',.045,M,420+i*80));
  // 0.2 lightning + tolling bell
  noise(t+.2,.9,.28,140,M);boom(.2,.5);bell(98,.2,.36,3.4);
  // 0.95 WELCOME TO whoosh
- swipe(t+.9,.35,.28,5200,700,M);tone(660,t+1.2,.16,'square',.04,M,3000);
+ swipe(t+.9,.35,.28,5200,700,M);tone(660,t+1.2,.16,'sine',.05,M);
  // 1.45 kanji slam
- boom(1.5,.4);tone(110,t+1.5,.6,'sawtooth',.08,M,700);
+ boom(1.5,.4);tone(110,t+1.5,.6,'triangle',.1,M,700);
  // 1.95 title slam
  boom(1.95,.7);bell(73.4,1.95,.4,3);swipe(t+1.95,.3,.32,7500,1200,M);
- for(let i=0;i<8;i++){const x=2.07+i*.09;noise(t+x,.07,.2,2400,M);sweep(240,90,t+x,.1,'square',.1,M,1600);tone(420+(i%4)*70,t+x,.1,'triangle',.05,M)}
+ for(let i=0;i<8;i++){const x=2.07+i*.09;noise(t+x,.07,.2,2400,M);sweep(240,90,t+x,.1,'triangle',.12,M,1600);tone(420+(i%4)*70,t+x,.1,'triangle',.05,M)}
  // 2.9 tagline
- swipe(t+2.9,.3,.24,6500,1400,M);tone(880,t+3.05,.14,'square',.035,M,3200);
+ swipe(t+2.9,.3,.24,6500,1400,M);tone(880,t+3.05,.14,'sine',.045,M);
  // 3.3 hero cards rise
  swipe(t+3.25,.45,.2,900,6000,M);
  for(let i=0;i<6;i++){noise(t+3.3+i*.09,.05,.14,3200,M);tone(520+i*90,t+3.3+i*.09,.12,'triangle',.07,M)}
  // 3.95 highlight sweep ticks
- for(let i=0;i<6;i++)tone(700+i*120,t+3.95+i*.2,.16,'square',.04,M,3600);
+ for(let i=0;i<6;i++)tone(700+i*120,t+3.95+i*.2,.16,'sine',.05,M);
  // 4.4 stage card
  swipe(t+4.4,.3,.2,6000,1400,M);bell(196,4.45,.12,1.6);
  // 5.0 tail rumble
@@ -56,7 +56,7 @@ const snd=()=>{try{
 }catch(e){console.warn('intro sound',e)}};
 const fin=()=>{if(st===2)return;st=2;clearTimeout(tm);
  try{if(M){M.gain.cancelScheduledValues(0);M.gain.setTargetAtTime(0,AU.ctx.currentTime,.1)}sfx('slash')}catch(e){}
- el.classList.add('out');setTimeout(()=>{el.remove();window.__kbGate=prev},700)};
+ el.classList.add('out');setTimeout(()=>{el.remove();window.__kbGate=prev;window.__intro=0;try{themeSync()}catch(e){}},700)};
 const go=()=>{st=1;el.classList.remove('gate');el.classList.add('go');snd();tm=setTimeout(fin,RM?2400:6600)};
 const act=()=>st===0?go():fin();
 const prev=window.__kbGate;

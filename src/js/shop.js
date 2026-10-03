@@ -41,6 +41,32 @@
     ["frost", "Frostedge", "White fading to winter blue.", 420, 3],
     ["prism", "Prism Edge", "Every colour of the spectrum in one stroke.", 880, 4]
   ];
+  const WF = [
+    ["ash", "Ashfall", "Grey ash drifts down as your streak climbs.", 100, 0],
+    ["ember", "Cinder Rise", "Sparks rise from a fire that grows into a wall of flame.", 160, 1],
+    ["lantern", "Spirit Lanterns", "Paper lanterns drift up through a festival night.", 200, 1],
+    ["fog", "Drifting Fog", "Cold fog rolls across the screen.", 220, 1],
+    ["kodama", "Forest Spirits", "Pale tree spirits sit in the dark among green fireflies.", 240, 1],
+    ["mote", "Soul Motes", "Pale blue lights, mist and glowing orbs float up from below.", 300, 2],
+    ["curse", "Cursed Flow", "Black-violet wisps of cursed energy coil up the screen.", 320, 2],
+    ["higan", "Higanbana Field", "A field of red spider lilies sways at the edge of the underworld.", 340, 2],
+    ["thunder", "Thunder Breath", "Yellow lightning forks across the sky, flashing harder with your streak.", 360, 2],
+    ["petal", "Petal Storm", "A blossom branch and storms of pink petals blow through the hunt.", 380, 2],
+    ["wave", "Great Wave", "Ukiyo-e waves roll along the bottom and swell as you chain words.", 420, 3],
+    ["tomoe", "Tomoe Gaze", "A spinning three-tomoe sigil burns red above the words.", 460, 3],
+    ["rain", "Blood Rain", "Red rain, a bruised sky and flashes of crimson lightning.", 520, 3],
+    ["neon", "Neon Dusk", "A rain-slick megacity glows magenta and cyan under the hunt.", 540, 3],
+    ["hollow", "Hueco Mundo", "White dunes, dead trees and a crescent moon over a wind-blown desert.", 560, 3],
+    ["gale", "Grand Line Gale", "A storm-tossed pirate ship rides black waves under lightning.", 580, 3],
+    ["eclipse", "Crimson Eclipse", "A black sun over a field of skulls, a planted greatsword and a tattered war banner.", 850, 4],
+    ["frontier", "Frontier Skybox", "A twin-moon alien sky, drifting ruins and flickering game-world glitches.", 860, 4],
+    ["aura", "Golden Surge", "Your aura ignites: golden streaks, sparks and a blazing ground.", 880, 4],
+    ["gate", "Royal Armory", "Golden portals open overhead and rain spears down.", 900, 4],
+    ["titan", "Beyond the Wall", "A colossal giant rises behind a great wall in a cloud of steam.", 900, 4],
+    ["shadow", "Shadow Monarch", "A silent army of shadows stands, violet eyes burning.", 920, 4],
+    ["angel", "Crimson Sea", "A red sea, shattered barriers and a cross of light as feathers fall.", 940, 4]
+  ];
+  const NONEW = ["", "Blood Ink", "The default: ink pools, a red tint and cracks as your streak climbs.", 0, 0];
   const NONE3 = ["", "Bone White", "The default white slash and attacks.", 0, 0];
   const NONE0 = ["", "No Border", "The bare frame.", 0, 0];
   const NONE2 = ["", "Plain Box", "The default dark box.", 0, 0];
@@ -70,6 +96,7 @@
     { name: "Parry Rings", own: "bn", cur: "bnE", items: BN, none: NONE, kind: "bn", note: "Parry ring skins change the shape of the shrinking ring when an enemy attack is parried." },
     { name: "Backgrounds", own: "bg", cur: "bgE", items: BG, none: NONE2, kind: "bg", note: "Backgrounds add a faint pattern behind the words you type." },
     { name: "Slash Colors", own: "sw", cur: "swE", items: SW, none: NONE3, kind: "sw", note: "Slash colors change the color of your sword cuts, and of the swords, arrows and other attacks you fire as you type." },
+    { name: "World Effects", own: "wf", cur: "wfE", items: WF, none: NONEW, kind: "wf", note: "World effects change how the screen reacts as your streak climbs (from streak 10, full at 70)." },
     { name: "Ghost Voices", own: "gv", cur: "gvE", items: GV, none: NONEV, kind: "gv", note: "Ghost voices change how Count Boo-La talks. Press Hear (or H) to listen before you buy. Turn the ghost off in Settings." }
   ];
   /* ghost wardrobe: hats, wings, neckwear, faces and body colors share ONE tab, split into sections (items live in ghostwear.js) */
@@ -98,6 +125,7 @@
   META.bd = META.bd || {}; META.bdE = META.bdE || "";
   META.bn = META.bn || {}; META.bnE = META.bnE || "";
   META.bg = META.bg || {}; META.bgE = META.bgE || "";
+  META.wf = META.wf || {}; META.wfE = META.wfE || "";
   META.sw = META.sw || {}; META.swE = META.swE || "";
   META.gv = META.gv || {}; META.gvE = META.gvE || "";
   /* old colour/glow borders were retired: refund them in souls */
@@ -175,6 +203,7 @@
     const b = en.b;
     if (en.kind === "wear") return '<div class="sh-p pvg">' + GW.build(Object.fromEntries([[en.slot, b[0]]]), "pv" + i, GW.VB[en.slot]) + "</div>";
     if (en.kind === "gv") return '<div class="sh-p pvv"><div class="bars">' + [0, 1, 2, 3, 4, 5, 6].map(n => '<i style="--n:' + n + ';--h:' + (10 + ((b[0].length * 7 + n * 11 + b[4] * 5) % 30)) + 'px"></i>').join("") + '</div><button class="pvbtn" data-v="' + b[0] + '">\u25B6 Hear</button></div>';
+    if (en.kind === "wf") { let bg = ""; try { bg = WORLDFX.thumb(b[0]); } catch (e) {} return '<div class="sh-p pvw"' + (bg ? ' style="background:' + bg + '"' : "") + "></div>"; }
     if (en.kind === "bn") return '<div class="sh-p ' + (b[0] ? "pvr pr-" + b[0] : "pvd") + '"><div class="rw"><i class="tg"></i><i class="rg"></i><strong>F</strong></div></div>';
     if (en.kind === "sw") return '<div class="sh-p pvs sw-' + (b[0] || "none") + '">' + pjHtml() + '<i class="sw"></i><i class="sw s2"></i><em>cut it down</em></div>';
     if (en.kind === "bg") return '<div class="sh-p pvt' + (b[0] ? " tb-" + b[0] : "") + '"><div class="tbx"><b>the quiet bla</b>de falls</div></div>';
@@ -281,6 +310,7 @@
     row.forEach(c => { if (Math.abs(mid(c) - cx) < Math.abs(mid(best) - cx)) best = c; });
     return cs.indexOf(best);
   }
+  let pvT = 0;
   function hear(btn) {
     const box = btn.closest(".pvv");
     try { GHOST.preview(btn.dataset.v); } catch (e) {}
@@ -310,7 +340,14 @@
     const to = (i, vert) => {
       e.preventDefault();
       if (!vert) wantX = null;
-      if (select(i)) { try { sfx("ui"); } catch (x) {} }
+      if (select(i)) {
+        try { sfx("ui"); } catch (x) {}
+        /* on the Ghost Voices tab the voice under the cursor plays as you move, same as pressing Hear */
+        if (TABS[tab].kind === "gv") {
+          clearTimeout(pvT);
+          pvT = setTimeout(() => { const b = card(sel) && card(sel).querySelector(".pvbtn"); if (b) hear(b); }, 140);
+        }
+      }
       reveal();
     };
     if (k === "q") { e.preventDefault(); e.repeat || setTab((tab + TABS.length - 1) % TABS.length); }

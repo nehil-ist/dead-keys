@@ -25,6 +25,7 @@
 #ovSh .sh-p .bdr{--t:6px}
 #ovSh .sh-c.nk{animation:shNk .25s}
 #ovSh .sh-c.bgt{animation:shBg .7s ease-out}
+.pvw{min-height:90px;border:1px solid #2a2a2a}
 @keyframes shNk{25%{translate:-6px 0}75%{translate:6px 0}}
 @keyframes shBg{0%{scale:1;box-shadow:0 0 0 0 var(--rc)}30%{scale:1.06;box-shadow:0 0 40px 6px var(--rc)}100%{scale:1}}
 

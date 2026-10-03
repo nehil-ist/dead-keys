@@ -1,0 +1,26 @@
+/* Reset progress: dark red settings row + two-step confirm dialog */
+#s-set .sr.danger{background:#3b0707;border-left-color:#c01818;color:#f2d4d0}
+#s-set .sr.danger em{color:#c48f8a}
+#s-set .sr.danger .pill{border-color:#c01818;color:#ff9a90;opacity:1}
+#s-set .sr.danger.sel,#s-set .sr.danger:hover{background:#7a0c0c;color:#fff}
+#s-set .sr.danger.sel em,#s-set .sr.danger:hover em{color:#f0b8b0}
+#s-set .sr.danger.sel .pill,#s-set .sr.danger:hover .pill{background:#fff;color:#7a0c0c;border-color:#fff}
+
+#rp{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#5a0a0a 0%,#2a0303 60%,#120101 100%)}
+#rp.on{display:flex}
+#rp .rb{background:#1a0505;border:3px double #e0a29a;box-shadow:8px 8px #8e1212;padding:22px 26px;width:min(calc(92 * var(--vw)),520px);color:#f2d4d0;transform:skew(-4deg)}
+#rp h3{font:400 1.7rem/1 Anton,Impact,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px;color:#fff}
+#rp p{font:500 .95rem/1.4 Inter,sans-serif;color:#d1a9a3;margin:0 0 16px}
+#rp .ph{font:700 1.1rem/1.5 var(--mono);letter-spacing:.03em;margin:0 0 12px;user-select:none}
+#rp .ph i{font-style:normal;color:#7a5450}
+#rp .ph i.ok{color:#fff}
+#rp .ph i.er{color:#fff;background:#c01818}
+#rp input{display:block;width:100%;box-sizing:border-box;margin:0 0 16px;background:#0a0202;border:2px solid #8e1212;color:#fff;font:600 1rem var(--mono);padding:10px 12px;outline:none}
+#rp input.good{border-color:#e9e5dc}
+#rp input[hidden],#rp .ph[hidden],#rp button[hidden]{display:none}
+#rp .cr{display:flex;gap:10px;flex-wrap:wrap}
+#rp button{font:400 1rem Anton,Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;background:#b01414;color:#fff;border:0;cursor:pointer}
+#rp button.no{background:transparent;color:#f2d4d0;border:2px solid #e0a29a}
+#rp button:disabled{opacity:.35;cursor:not-allowed}
+#rp button.sel{outline:3px solid #fff;outline-offset:3px}
+#rp small{display:block;margin-top:14px;font:700 .62rem/1 var(--mono);letter-spacing:.1em;color:#a4726c}

@@ -32,25 +32,25 @@
         });
         swipe(t, .35, .06, 1200, 6500, d);
       } else if (r === 3) {
-        sweep(120, 420, t, .3, "sawtooth", .05, d, 1800);
+        sweep(120, 420, t, .3, "triangle", .06, d, 1800);
         swipe(t, .35, .1, 800, 7000, d);
         const h = t + .28;
         sweep(150, 45, h, .5, "sine", .4, d);
         noise(h, .18, .14, 1500, d);
         [392, 494, 587, 784].forEach((f, i) => {
-          tone(f, h + i * .04, 1.1, "sawtooth", .045, d, 1400);
+          tone(f, h + i * .04, 1.1, "triangle", .055, d, 1600);
           tone(f * 2, h + i * .04, .9, "sine", .06, d);
         });
         for (let i = 0; i < 6; i++) tone(1568 * (1 + i * .19), h + .1 + i * .06, .25, "sine", .035, d);
       } else {
         sweep(90, 28, t, 1.3, "sine", .55, d);
-        sweep(110, 880, t, .45, "sawtooth", .06, d, 3000);
+        sweep(110, 880, t, .45, "triangle", .07, d, 3000);
         swipe(t, .5, .12, 500, 9000, d);
         const h = t + .45;
         noise(h, .9, .2, 900, d);
         sweep(200, 40, h, .8, "sine", .5, d);
         [262, 330, 392, 523, 659, 784].forEach((f, i) => {
-          tone(f, h + i * .035, 1.8, "sawtooth", .04, d, 1800);
+          tone(f, h + i * .035, 1.8, "triangle", .05, d, 2000);
           tone(f * 2, h + i * .035, 1.6, "sine", .06, d);
         });
         [1319, 1760, 2349, 3136].forEach((f, i) => tone(f, h + .05 + i * .09, 1.2, "sine", .05, d));
